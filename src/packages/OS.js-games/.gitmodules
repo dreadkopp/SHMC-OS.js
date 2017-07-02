@@ -1,0 +1,3 @@
+[submodule "Wolfenstein3D/data"]
+	path = Wolfenstein3D/data
+	url = https://github.com/andersevenrud/html5-wolfenstein3D.git

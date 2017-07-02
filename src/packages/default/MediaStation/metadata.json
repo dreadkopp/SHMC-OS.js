@@ -1,0 +1,13 @@
+{
+  "className":  "ApplicationMediaStation",
+  "name":       "MediaStation",
+  "mime":       null,
+  "icon":       "categories/applications-system.png",
+  "category":   "multimedia",
+  "preload":    [
+    {"src": "main.js", "type": "javascript"}
+  ]
+}
+
+
+

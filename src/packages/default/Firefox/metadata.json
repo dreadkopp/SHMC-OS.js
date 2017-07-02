@@ -1,0 +1,13 @@
+{
+  "className":  "ApplicationFirefox",
+  "name":       "Firefox",
+  "mime":       null,
+  "icon":       "categories/applications-system.png",
+  "category":   "network",
+  "preload":    [
+    {"src": "main.js", "type": "javascript"}
+  ]
+}
+
+
+

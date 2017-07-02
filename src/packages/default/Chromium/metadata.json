@@ -1,0 +1,12 @@
+{
+  "className":  "ApplicationChromium",
+  "name":       "Chromium",
+  "mime":       null,
+  "icon":       "categories/applications-system.png",
+  "preload":    [
+    {"src": "main.js", "type": "javascript"}
+  ]
+}
+
+
+

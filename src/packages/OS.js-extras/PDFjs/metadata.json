@@ -1,0 +1,34 @@
+{
+  "className":  "ApplicationPDFjs",
+  "name":       "PDFjs",
+  "description":"PDF Viewer",
+  "mime":       ["application\/pdf"],
+  "category":   "office",
+  "icon":       "mimetypes/x-office-document.png",
+  "build":      {
+    "copy": [
+      "metadata.json",
+      "scheme.html",
+      "main.css",
+      "main.js",
+      "vendor/pdf.js"
+    ],
+    "scripts": {
+      "before": [
+        "(cd $OSJS_PACKAGE && ./build.sh)"
+      ]
+    }
+  },
+  "preload":    [
+    {"src": "vendor/pdf.js/build/pdf.js", "type": "javascript"},
+    {"src": "main.js", "type": "javascript"},
+    {"src": "main.css", "type": "stylesheet"},
+    {
+      "src": "scheme.html",
+      "type": "scheme"
+    }
+  ]
+}
+
+
+

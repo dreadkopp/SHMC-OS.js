@@ -1,0 +1,42 @@
+{
+  "build": {
+    "overlays": {
+      "custom": {
+        "javascript": [
+          "src/client/javascript/utils/jquery.js",
+          "src/client/javascript/utils/raphael.icons.min.js",
+          "src/client/javascript/utils/raphael.min.js",
+          "src/client/javascript/utils/wheelnav.js"
+        ]
+      }
+    }
+  },
+  "storage": "database",
+  "server": {
+    "modules": {
+      "storage": {
+        "database": {
+          "driver": "sqlite"
+        }
+      },
+      "auth": {
+        "database": {
+          "driver": "sqlite"
+        }
+      }
+    }
+  },
+  "authentiator": "database",
+  "repositories": [
+    "default",
+    "OS.js-experimental",
+    "OS.js-extras",
+    "OS.js-games",
+    "OS.js-development"
+  ],
+  "packages": {
+    "ForceEnable": [],
+    "ForceDisable": []
+  },
+  "authenticator": "database"
+}

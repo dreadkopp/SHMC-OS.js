@@ -1,0 +1,64 @@
+{
+  "name": "OS.js",
+  "version": "2.0.0-96",
+  "description": "JavaScript Cloud/Web Desktop Platform",
+  "url": "https://www.os-js.org",
+  "email": "andersevenrud@gmail.com",
+  "license": "BSD-2-Clause",
+  "contributors": [
+    {
+      "name": "Anders Evenrud",
+      "email": "andersevenrud@gmail.com"
+    }
+  ],
+  "keywords": [
+    "os.js",
+    "web desktop",
+    "cloud desktop"
+  ],
+  "bugs": {
+    "url": "https://github.com/os-js/OS.js/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/os-js/OS.js.git"
+  },
+  "scripts": {
+    "test": "grunt test",
+    "build": "node osjs build",
+    "run": "node osjs run"
+  },
+  "dependencies": {
+    "chokidar": "^1.6.1",
+    "clean-css": "^4.0.12",
+    "colors": "^1.1.2",
+    "compression": "^1.6.2",
+    "cookie": "^0.3.1",
+    "cookie-parser": "^1.4.3",
+    "diskspace": "^2.0.0",
+    "express-session": "^1.15.2",
+    "findit": ">=2.0.0",
+    "formidable": ">=1.0.17",
+    "fs-extra": "^2.1.2",
+    "glob": "^7.1.1",
+    "glob-promise": "^3.1.0",
+    "http-proxy": "^1.16.2",
+    "less": ">=2.7.1",
+    "minimist": "^1.2.0",
+    "request": "^2.81.0",
+    "simplejsonconf": "^1.0.5",
+    "uglify-js": "^2.8.22",
+    "unzip-stream": "^0.1.2",
+    "ws": "^2.3.1",
+    "zlibjs": "^0.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "grunt": ">=1.0.1",
+    "grunt-contrib-csslint": "2.0.0",
+    "grunt-contrib-validate-xml": ">=0.0.1",
+    "grunt-eslint": ">=19.0.0",
+    "grunt-mocha": "^1.0.2",
+    "grunt-mocha-test": ">=0.13.2"
+  }
+}

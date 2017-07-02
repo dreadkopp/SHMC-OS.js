@@ -1,0 +1,12 @@
+{
+  "className":  "ApplicationDiscord",
+  "name":       "Discord",
+  "mime":       null,
+  "icon":       "categories/applications-system.png",
+  "preload":    [
+    {"src": "main.js", "type": "javascript"}
+  ]
+}
+
+
+

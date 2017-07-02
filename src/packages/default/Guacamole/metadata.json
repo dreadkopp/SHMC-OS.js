@@ -1,0 +1,12 @@
+{
+  "className":  "ApplicationGuacamole",
+  "name":       "Guacamole",
+  "mime":       null,
+  "icon":       "categories/applications-system.png",
+  "preload":    [
+    {"src": "main.js", "type": "javascript"}
+  ]
+}
+
+
+
