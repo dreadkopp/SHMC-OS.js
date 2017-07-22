@@ -2,6 +2,7 @@
   "className":  "ApplicationGuacamole",
   "name":       "Guacamole",
   "mime":       null,
+"category":   "utilities",
   "icon":       "categories/applications-system.png",
   "preload":    [
     {"src": "main.js", "type": "javascript"}

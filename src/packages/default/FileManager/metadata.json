@@ -3,6 +3,7 @@
   "name":       "FileManager",
   "mime":       null,
   "icon":       "categories/applications-system.png",
+ "category":   "utilities",
   "preload":    [
     {"src": "main.js", "type": "javascript"}
   ]

@@ -36,53 +36,31 @@
   // WINDOWS
   /////////////////////////////////////////////////////////////////////////////
 
-  function ApplicationAppStreamWindow(app, metadata, scheme) {
-    Window.apply(this, ['ApplicationAppStreamWindow', {
+  function ApplicationtestWindow(app, metadata, scheme) {
+    Window.apply(this, ['ApplicationtestWindow', {
       icon: metadata.icon,
       title: metadata.name,
-      allow_maximize: false,
-      allow_move: false,
-      allow_resize: false,
-      width: 100,
-      height: 350,
+      width: 400,
+      height: 200
     }, app, scheme]);
   }
 
-  ApplicationAppStreamWindow.prototype = Object.create(Window.prototype);
-  ApplicationAppStreamWindow.constructor = Window.prototype;
+  ApplicationtestWindow.prototype = Object.create(Window.prototype);
+  ApplicationtestWindow.constructor = Window.prototype;
 
-  ApplicationAppStreamWindow.prototype.init = function(wmRef, app, scheme) {
+  ApplicationtestWindow.prototype.init = function(wmRef, app, scheme) {
     var root = Window.prototype.init.apply(this, arguments);
     var self = this;
 
     // Render our Scheme file fragment into this Window
-    this._render('AppStreamWindow');
+    this._render('testWindow');
 
     // Put your GUI code here (or make a new prototype function and call it):
-    $(".ApplicationAppStreamWindow").css('top','calc(100vh - 350px)');
-    $(".ApplicationAppStreamWindow").css('width', '100vw');
-    $(".ApplicationAppStreamWindow").css('left', '0px');
-
-    sendMessageToApp("showStreams");
-
-    this._on( 'destroy' , function() {
-      console.log("now closing streams");
-    	   sendMessageToApp("hideStreams");
-    });
-    this._on( 'minimize' , function() {
-         sendMessageToApp("hideStreams");
-	  });
-    this._on( 'restore' , function() {
-	       sendMessageToApp("showStreams");
-	   });
-
-
-
 
     return root;
   };
 
-  ApplicationAppStreamWindow.prototype.destroy = function() {
+  ApplicationtestWindow.prototype.destroy = function() {
     // This is where you remove objects, dom elements etc attached to your
     // instance. You can remove this if not used.
     if ( Window.prototype.destroy.apply(this, arguments) ) {
@@ -95,14 +73,14 @@
   // APPLICATION
   /////////////////////////////////////////////////////////////////////////////
 
-  function ApplicationAppStream(args, metadata) {
-    Application.apply(this, ['ApplicationAppStream', args, metadata]);
+  function Applicationtest(args, metadata) {
+    Application.apply(this, ['Applicationtest', args, metadata]);
   }
 
-  ApplicationAppStream.prototype = Object.create(Application.prototype);
-  ApplicationAppStream.constructor = Application;
+  Applicationtest.prototype = Object.create(Application.prototype);
+  Applicationtest.constructor = Application;
 
-  ApplicationAppStream.prototype.destroy = function() {
+  Applicationtest.prototype.destroy = function() {
     // This is where you remove objects, dom elements etc attached to your
     // instance. You can remove this if not used.
     if ( Application.prototype.destroy.apply(this, arguments) ) {
@@ -111,9 +89,9 @@
     return false;
   };
 
-  ApplicationAppStream.prototype.init = function(settings, metadata, scheme) {
+  Applicationtest.prototype.init = function(settings, metadata, scheme) {
     Application.prototype.init.apply(this, arguments);
-    this._addWindow(new ApplicationAppStreamWindow(this, metadata, scheme));
+    this._addWindow(new ApplicationtestWindow(this, metadata, scheme));
 
     // Example on how to call `api.js` methods
     this._api('test', {}, function(err, res) {
@@ -126,7 +104,7 @@
   /////////////////////////////////////////////////////////////////////////////
 
   OSjs.Applications = OSjs.Applications || {};
-  OSjs.Applications.ApplicationAppStream = OSjs.Applications.ApplicationAppStream || {};
-  OSjs.Applications.ApplicationAppStream.Class = Object.seal(ApplicationAppStream);
+  OSjs.Applications.Applicationtest = OSjs.Applications.Applicationtest || {};
+  OSjs.Applications.Applicationtest.Class = Object.seal(Applicationtest);
 
 })(OSjs.Core.Application, OSjs.Core.Window, OSjs.Utils, OSjs.API, OSjs.VFS, OSjs.GUI);

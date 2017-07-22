@@ -4,7 +4,7 @@ namespace OSjs\Packages;
 
 use OSjs\Core\Request;
 
-class AppStream
+class test
 {
     public static function test(Request $request, Array $args = Array())
     {
@@ -13,4 +13,4 @@ class AppStream
 
 }
 
-return 'OSjs\\Packages\\AppStream';
+return 'OSjs\\Packages\\test';

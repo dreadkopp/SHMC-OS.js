@@ -3,6 +3,7 @@
   "name":       "Chromium",
   "mime":       null,
   "icon":       "categories/applications-system.png",
+  "category":   "network",
   "preload":    [
     {"src": "main.js", "type": "javascript"}
   ]

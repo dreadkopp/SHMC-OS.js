@@ -36,9 +36,9 @@ var menuMainEntries = [];
 var subwheel = [];
 //set size (4==quarter, 2==half, 1==full .... do not set this to 0... seriously XD .. also full circle is broken due to unselect not working anymore (no null navitems available))
 var size = 2;
-//set orientation 'top' or 'bottom'
-var orientation = "bottom";
-var fontsize_main = "18px"
+//set orientation 'top' or 'side'
+var orientation = "side";
+var fontsize_main = "14px"
 var fontsize_sub = "12px"
 
 function hideMenu() {
@@ -275,6 +275,7 @@ function hideMenu() {
 
           //navigate to first 'null' element of main wheel
           wheel.navigateWheel(menuMainEntries.length);
+
         }
         else {
           $('<div id="wheelDiv"></div>').insertAfter('corewm-panel');
@@ -284,9 +285,9 @@ function hideMenu() {
             $("#wheelDiv svg").css("top", "-250px");
             $("#wheelDiv svg").css("left", "-250px");
           }
-          if (orientation == "bottom") {
-            $("#wheelDiv svg").css("top", "calc(100vh - 250px)");
-            $("#wheelDiv svg").css("left", "calc(50vw - 250px)");
+          if (orientation == "side") {
+            $("#wheelDiv svg").css("top", "calc(50vh - 250px)");
+            $("#wheelDiv svg").css("left", "calc(0vw - 250px)");
           }
         }
 
@@ -299,7 +300,7 @@ function hideMenu() {
         var wm = OSjs.Core.getWindowManager();
         var cfgCategories = wm.getDefaultSetting('menu');
         //var menuMainEntries = [];
-        //TODO: push only those categories which have children ...
+        //push only those categories which have children ...
         Object.keys(cfgCategories).forEach(function(c) {
           if (checkForChildren(c,apps)){
           menuMainEntries.push(c);
@@ -318,12 +319,48 @@ function hideMenu() {
               //then show submenu for specific mainentry
               var index = this.itemIndex;
               for (var x = 0; x < (subwheel[index].navItemCount / size) ; x++) {
-                subwheel[index].navItems[x].navItem.show();
-                subwheel[index].navItems[x].navigateFunction =  function () {
-                  //launch OSJS App
-                  OSjs.API.launch("Application"+this.title.replace( /\s/g, ""));
-                  //hide Menu after successful launch
-                  hideMenu();
+                if (subwheel[index].holderId != "Current Window_sub") {
+                  subwheel[index].navItems[x].navItem.show();
+                  subwheel[index].navItems[x].navigateFunction =  function () {
+                    //launch OSJS App
+                    OSjs.API.launch("Application"+this.title.replace( /\s/g, ""));
+                    //hide Menu after successful launch
+                    hideMenu();
+                  }
+                }
+                else {
+                  //TODO: only open if there are windows to manage
+                  if ( OSjs.Core.getWindowManager().getWindows().length > 0 ) {
+                    subwheel[index].navItems[x].navItem.show();
+                  }
+                  switch (subwheel[index].navItems[x].title) {
+                    case "minimize":
+                      subwheel[index].navItems[x].navigateFunction =  function () {
+                        var wm = OSjs.Core.getWindowManager().getCurrentWindow();
+                        if (wm) wm._minimize();
+                        //hide Menu after successful launch
+                        hideMenu();
+                      }
+                      break;
+                    case "maximize":
+                      subwheel[index].navItems[x].navigateFunction =  function () {
+                        var wm = OSjs.Core.getWindowManager().getCurrentWindow();
+                        if (wm) wm._maximize();
+                        //hide Menu after successful launch
+                        hideMenu();
+                      }
+                      break;
+                    case "close":
+                      subwheel[index].navItems[x].navigateFunction =  function () {
+                        var wm = OSjs.Core.getWindowManager().getCurrentWindow();
+                        if (wm) wm.destroy();
+                        //hide Menu after successful launch
+                        hideMenu();
+                      }
+                      break;
+                    default:
+                      break;
+                  }
                 }
               }
             }
@@ -331,6 +368,7 @@ function hideMenu() {
         }
 
         //return true if there are apps with category == passed category
+        // check if there are apps with unknown category
         function checkForChildren (category, apps) {
 
           var hasChildren = false;
@@ -338,10 +376,12 @@ function hideMenu() {
               if (apps[key].category == category){
                 hasChildren = true;
               }
+              //check for unknown category
+/*              if (category = "unknown" && !apps[key].category) {
+                hasChildren = true;
+              }*/
           });
-          if (category == 'unknown') {
-            hasChildren = true;
-          }
+
           return hasChildren;
         }
 
@@ -362,7 +402,7 @@ function hideMenu() {
 
                 wheel = new wheelnav('wheelDiv', null , dimensions[0] , dimensions[1]);
 
-                wheel.colors = ['#868383'];
+                wheel.colors = ['#353535'];
                 wheel.spreaderEnable = false;
                 wheel.spreaderRadius = 65;
                 wheel.slicePathFunction = slicePath().DonutSlice;
@@ -373,12 +413,13 @@ function hideMenu() {
                 wheel.slicePathCustom.maxRadiusPercent = 0.55;
                 wheel.sliceSelectedPathCustom = wheel.slicePathCustom;
                 wheel.sliceInitPathCustom = wheel.slicePathCustom;
+                //add windowcontrol menu entry
+                menuMainEntries.unshift("Current Window");
                 var menuEntries = createMainEntries(menuMainEntries);
                 if (orientation == "top") {wheel.navAngle = ((180/size)/menuMainEntries.length);}
-                if (orientation == "bottom") {wheel.navAngle = ((180/size)/menuMainEntries.length)+180;}
+                if (orientation == "side") {wheel.navAngle = ((180/size)/menuMainEntries.length)-90;}
                 wheel.animateeffect="linear";
                 wheel.animatetime = 200;
-                wheel.titleRotateAngle = 180;
                 wheel.titleFont = '100 ' + fontsize_main + ' trench, sans-serif'
                 //wheel.titleWidth= 2;
 
@@ -388,7 +429,7 @@ function hideMenu() {
                   for (var i=0; i < entries.length; i++) {
                       menuEntries.push(entries[i]);
                   }
-                  //fill 3/4 with empty entries
+                  //fill half with empty entries
                   for (var i=0; i < (entries.length*(size-1)); i++) {
                     menuEntries.push(null);
                   }
@@ -396,9 +437,17 @@ function hideMenu() {
 
                 }
 
-
+                wheel.titleRotateAngle = 0;
 
                 wheel.createWheel(menuEntries);
+
+            		wheel.titleAttr = { fill: '#ddd', stroke: 'none' };
+            		wheel.refreshWheel();
+
+                for (var i=0; i < (menuMainEntries.length/2);i++) {
+                  wheel.navItems[i].navTitle.rotate(180);
+                }
+
                 wheel.navigateWheel(menuMainEntries.length);
 
                 //function needed to get rid of GUI-less applications (like CoreWM)
@@ -429,10 +478,14 @@ function hideMenu() {
                             }
                         });
                       }
+                      if (menuMainEntries[j] == 'Current Window') {
+                        subMenuEntries = ['minimize','maximize','close'];
+                      }
+
 
 
                       subwheel[j] = new wheelnav(name, wheel.raphael);
-                      subwheel[j].colors = ['#b1afaf'];
+                      subwheel[j].colors = ['#353535'];
                       subwheel[j].slicePathFunction = slicePath().DonutSlice;
                       subwheel[j].clickModeRotate = false;
                       subwheel[j].slicePathCustom = slicePath().DonutSliceCustomization();
@@ -441,12 +494,16 @@ function hideMenu() {
                       subwheel[j].sliceSelectedPathCustom = subwheel[j].slicePathCustom;
                       subwheel[j].sliceInitPathCustom = subwheel[j].slicePathCustom;
                       if (orientation == "top") {subwheel[j].navAngle = ((180/size)/subMenuEntries.length);}
-                      if (orientation == "bottom") {subwheel[j].navAngle = ((180/size)/subMenuEntries.length)+180;}
+                      if (orientation == "side") {subwheel[j].navAngle = ((180/size)/subMenuEntries.length)-90;}
                       subwheel[j].animateeffect = 'linear';
                       subwheel[j].animatetime = 200;
-                      subwheel[j].titleRotateAngle = 180;
+                      subwheel[j].titleRotateAngle = 0;
                       subwheel[j].titleFont = '100 ' + fontsize_sub + ' trench, sans-serif'
                       subwheel[j].createWheel(createMainEntries(subMenuEntries));
+
+		      subwheel[j].titleAttr = { fill: '#ddd', stroke: 'none' };
+	              subwheel[j].refreshWheel();
+
                       subwheel[j].navigateWheel(subMenuEntries.length);
                       for (var k = 0; k < subwheel[j].navItems.length; k++) {
                         subwheel[j].navItems[k].navItem.hide();

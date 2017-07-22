@@ -1,9 +1,8 @@
 {
-  "className": "ApplicationAppStream",
-  "name": "AppStream",
+  "className": "Applicationtest",
+  "name": "test",
   "mime": null,
   "icon": "categories/applications-system.png",
-  "category":   "games",
   "main": {
     "node": "server/main.js",
     "php": "server/main.php"
